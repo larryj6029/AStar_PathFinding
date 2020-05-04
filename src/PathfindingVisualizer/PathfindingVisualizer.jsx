@@ -76,6 +76,21 @@ export default class PathfindingVisualizer extends Component {
     }
   }
 
+  resetGrid() {
+    for (let row = 0; row < 20; row++) {
+      for (let col = 0; col < 50; col++) {
+        document.getElementById(`node-${row}-${col}`).className =
+          'node';
+
+      }
+    }
+    document.getElementById(`node-${START_NODE_ROW}-${START_NODE_COL}`).className =
+      'node node-start';
+    document.getElementById(`node-${FINISH_NODE_ROW}-${FINISH_NODE_COL}`).className =
+      'node node-finish';
+    this.setState({ grid: getInitialGrid() });
+  }
+
   animateShortestPath(nodesInShortestPathOrder) {
     for (let i = 0; i < nodesInShortestPathOrder.length; i++) {
       setTimeout(() => {
@@ -101,21 +116,19 @@ export default class PathfindingVisualizer extends Component {
     const finishNode = grid[FINISH_NODE_ROW][FINISH_NODE_COL];
     const visitedNodesInOrder = aStar(grid, startNode, finishNode);
     const nodesInShortestPathOrder = getNode(finishNode);
-    console.log(visitedNodesInOrder.length);
-    console.log(nodesInShortestPathOrder.length);
     this.animateAStar(visitedNodesInOrder, nodesInShortestPathOrder);
   }
 
   randomGrid() {
+    this.setState({ grid: getInitialGrid });
     for (let row = 0; row < 20; row++) {
       for (let col = 0; col < 50; col++) {
         let activate = Math.floor(Math.random() * 100);
-        if (activate % 4 === 0) {
+        if (activate % 9 === 0) {
           this.handleMouseDown(row, col);
         }
       }
     }
-    document.getElementById("random").disabled = true;
     this.setState({ mouseIsPressed: false });
   }
 
@@ -124,8 +137,8 @@ export default class PathfindingVisualizer extends Component {
 
     return (
       <>
-        <button id="random" onClick={() => this.randomGrid()}>Create a Random Maze</button>
-        <button onClick={() => window.location.reload()} > Reset grid</button>
+        <button onClick={() => this.randomGrid()}>Create a Random Maze</button>
+        <button onClick={() => this.resetGrid()} > Reset grid</button>
         <button onClick={() => this.visualizeDijkstra()}>
           Visualize Dijkstra's Algorithm
         </button>
