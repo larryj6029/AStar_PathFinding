@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import './Node.css';
-
+/// F, G, and H are heurisitc variables for the aStar algorithm.
 export default class Node extends Component {
   render() {
     const {
