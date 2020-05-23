@@ -77,11 +77,11 @@ export default class PathfindingVisualizer extends Component {
   }
 
   resetGrid() {
+
     for (let row = 0; row < 20; row++) {
       for (let col = 0; col < 50; col++) {
         document.getElementById(`node-${row}-${col}`).className =
           'node';
-
       }
     }
     document.getElementById(`node-${START_NODE_ROW}-${START_NODE_COL}`).className =
@@ -120,11 +120,11 @@ export default class PathfindingVisualizer extends Component {
   }
 
   randomGrid() {
-    this.setState({ grid: getInitialGrid });
+    this.setState({ grid: this.resetGrid() });
     for (let row = 0; row < 20; row++) {
       for (let col = 0; col < 50; col++) {
         let activate = Math.floor(Math.random() * 100);
-        if (activate % 9 === 0) {
+        if (activate % 7 === 0) {
           this.handleMouseDown(row, col);
         }
       }
