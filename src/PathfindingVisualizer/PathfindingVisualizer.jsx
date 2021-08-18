@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import Node from './Node/Node';
-import { dijkstra, getNodesInShortestPathOrder } from '../algorithms/dijkstra';
-import { aStar, getNode } from '../algorithms/aStar';
+import {dijkstra, getNodesInShortestPathOrder} from '../algorithms/dijkstra';
+import {aStar, getNode} from '../algorithms/aStar';
 
 import './PathfindingVisualizer.css';
 
@@ -21,27 +21,27 @@ export default class PathfindingVisualizer extends Component {
 
   componentDidMount() {
     const grid = getInitialGrid();
-    this.setState({ grid });
+    this.setState({grid});
   }
 
   handleMouseDown(row, col) {
     const newGrid = getNewGridWithWallToggled(this.state.grid, row, col);
-    this.setState({ grid: newGrid, mouseIsPressed: true });
+    this.setState({grid: newGrid, mouseIsPressed: true});
   }
 
   handleMouseEnter(row, col) {
     if (!this.state.mouseIsPressed) return;
     const newGrid = getNewGridWithWallToggled(this.state.grid, row, col);
-    this.setState({ grid: newGrid });
+    this.setState({grid: newGrid});
   }
 
   handleMouseUp() {
-    this.setState({ mouseIsPressed: false });
+    this.setState({mouseIsPressed: false});
   }
 
   handleReset(row, col) {
     const newGrid = getReset(this.state.grid, row, col);
-    this.setState({ grid: newGrid });
+    this.setState({grid: newGrid});
   }
 
   animateDijkstra(visitedNodesInOrder, nodesInShortestPathOrder) {
@@ -77,18 +77,18 @@ export default class PathfindingVisualizer extends Component {
   }
 
   resetGrid() {
-
     for (let row = 0; row < 20; row++) {
       for (let col = 0; col < 50; col++) {
-        document.getElementById(`node-${row}-${col}`).className =
-          'node';
+        document.getElementById(`node-${row}-${col}`).className = 'node';
       }
     }
-    document.getElementById(`node-${START_NODE_ROW}-${START_NODE_COL}`).className =
-      'node node-start';
-    document.getElementById(`node-${FINISH_NODE_ROW}-${FINISH_NODE_COL}`).className =
-      'node node-finish';
-    this.setState({ grid: getInitialGrid() });
+    document.getElementById(
+      `node-${START_NODE_ROW}-${START_NODE_COL}`,
+    ).className = 'node node-start';
+    document.getElementById(
+      `node-${FINISH_NODE_ROW}-${FINISH_NODE_COL}`,
+    ).className = 'node node-finish';
+    this.setState({grid: getInitialGrid()});
   }
 
   animateShortestPath(nodesInShortestPathOrder) {
@@ -102,7 +102,7 @@ export default class PathfindingVisualizer extends Component {
   }
 
   visualizeDijkstra() {
-    const { grid } = this.state;
+    const {grid} = this.state;
     const startNode = grid[START_NODE_ROW][START_NODE_COL];
     const finishNode = grid[FINISH_NODE_ROW][FINISH_NODE_COL];
     const visitedNodesInOrder = dijkstra(grid, startNode, finishNode);
@@ -111,7 +111,7 @@ export default class PathfindingVisualizer extends Component {
   }
 
   visualizeAStar() {
-    const { grid } = this.state;
+    const {grid} = this.state;
     const startNode = grid[START_NODE_ROW][START_NODE_COL];
     const finishNode = grid[FINISH_NODE_ROW][FINISH_NODE_COL];
     const visitedNodesInOrder = aStar(grid, startNode, finishNode);
@@ -120,7 +120,7 @@ export default class PathfindingVisualizer extends Component {
   }
 
   randomGrid() {
-    this.setState({ grid: this.resetGrid() });
+    this.setState({grid: this.resetGrid()});
     for (let row = 0; row < 20; row++) {
       for (let col = 0; col < 50; col++) {
         let activate = Math.floor(Math.random() * 100);
@@ -129,16 +129,16 @@ export default class PathfindingVisualizer extends Component {
         }
       }
     }
-    this.setState({ mouseIsPressed: false });
+    this.setState({mouseIsPressed: false});
   }
 
   render() {
-    const { grid, mouseIsPressed } = this.state;
+    const {grid, mouseIsPressed} = this.state;
 
     return (
       <>
         <button onClick={() => this.randomGrid()}>Create a Random Maze</button>
-        <button onClick={() => this.resetGrid()} > Reset grid</button>
+        <button onClick={() => this.resetGrid()}> Reset grid</button>
         <button onClick={() => this.visualizeDijkstra()}>
           Visualize Dijkstra's Algorithm
         </button>
@@ -150,7 +150,7 @@ export default class PathfindingVisualizer extends Component {
             return (
               <div key={rowIdx}>
                 {row.map((node, nodeIdx) => {
-                  const { row, col, isFinish, isStart, isWall } = node;
+                  const {row, col, isFinish, isStart, isWall} = node;
                   return (
                     <Node
                       key={nodeIdx}
@@ -170,8 +170,10 @@ export default class PathfindingVisualizer extends Component {
               </div>
             );
           })}
+          <a href="https://sorting-ljsn6029.herokuapp.com/">
+            Sorting Visualizer!
+          </a>
         </div>
-
       </>
     );
   }
@@ -202,7 +204,7 @@ const createNode = (col, row) => {
     priority: Infinity,
     f: 0,
     g: 0,
-    h: 0
+    h: 0,
   };
 };
 
@@ -221,8 +223,7 @@ const getNewGridWithWallToggled = (grid, row, col) => {
 const getReset = (grid, row, col) => {
   const newGrid = grid.slice();
   const node = newGrid[row][col];
-  document.getElementById(`node-${node.row}-${node.col}`).className =
-    'node';
+  document.getElementById(`node-${node.row}-${node.col}`).className = 'node';
   const newNode = {
     ...node,
     isVisited: false,
@@ -231,4 +232,4 @@ const getReset = (grid, row, col) => {
   };
   newGrid[row][col] = newNode;
   return newGrid;
-}
+};
